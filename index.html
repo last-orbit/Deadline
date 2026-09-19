@@ -1,11 +1,60 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-</body>
+  </head>
+  <body>
+    <nav></nav>
+    <main>
+      <!-- Deadline Section -->
+      <section>
+        <h1>What is your deadline?</h1>
+        <form>
+          <fieldset>
+            <div>
+              <label for="name">Deadline Name:</label>
+              <input type="text" id="" placeholder="Finish project by today" />
+            </div>
+            <div>
+              <label for="name">Deadline:</label>
+              <input type="date" id="" placeholder="October 26th 1985" />
+            </div>
+            <button>Submit</button>
+          </fieldset>
+        </form>
+      </section>
+      <!-- To Do Section -->
+      <section>
+        <h1>To Do</h1>
+        <form>
+          <fieldset>
+            <h2>Create your tasks</h2>
+            <!-- Main div -->
+            <div>
+              <div>
+                <label for="name">Task name:</label>
+                <input type="text" placeholder="task name" id="" />
+              </div>
+              <div>
+                <label for="">Status:</label>
+                <input placeholder="In Progress, Scheduled" id="" />
+              </div>
+              <div>
+                <label for="priority">Priority:</label>
+                <select id="priority">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+            </div>
+            <button>Submit</button>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
 </html>
