@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <nav></nav>
@@ -27,19 +28,23 @@
       </section>
       <!-- To Do Section -->
       <section>
-        <h1>To Do</h1>
-        <form>
+        <div class="todo-title">
+          <h1>To Do</h1>
+          <button onclick="openBox()">+</button>
+        </div>
+        <!-- Create Task -->
+        <form id="taskForm">
           <fieldset>
             <h2>Create your tasks</h2>
             <!-- Main div -->
             <div>
               <div>
-                <label for="name">Task name:</label>
-                <input type="text" placeholder="task name" id="" />
+                <label for="taskName">Task name:</label>
+                <input type="text" placeholder="task name" id="taskName" />
               </div>
               <div>
-                <label for="">Status:</label>
-                <input placeholder="In Progress, Scheduled" id="" />
+                <label for="status">Status:</label>
+                <input placeholder="In Progress, Scheduled" id="status" />
               </div>
               <div>
                 <label for="priority">Priority:</label>
@@ -49,12 +54,19 @@
                   <option value="3">3</option>
                 </select>
               </div>
+              <div>
+                <input type="checkbox" id="checkbox" name="complete" />
+                <label for="checkbox" onclick="removeTask()">Complete</label>
+              </div>
+              <div>
+                <button>Delete <span>🗑️</span></button>
+              </div>
             </div>
-            <button>Submit</button>
           </fieldset>
         </form>
       </section>
     </main>
     <footer></footer>
+    <script src="script.js"></script>
   </body>
 </html>
