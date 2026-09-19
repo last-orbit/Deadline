@@ -1,0 +1,21 @@
+{
+  "name": "template_frontend",
+  "version": "1.0.0",
+  "description": "Standard Template I use for my front end projects.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/last-orbit/Template_FrontEnd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/last-orbit/Template_FrontEnd/issues"
+  },
+  "homepage": "https://github.com/last-orbit/Template_FrontEnd#readme"
+}
