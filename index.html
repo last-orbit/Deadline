@@ -30,12 +30,12 @@
       <section>
         <div class="todo-title">
           <h1>To Do</h1>
-          <button onclick="openBox()">+</button>
+          <button onclick="openBox()">Add Task <span>+</span></button>
         </div>
         <!-- Create Task -->
         <form id="taskForm">
           <fieldset>
-            <h2>Create your tasks</h2>
+            <h2>Create your task</h2>
             <!-- Main div -->
             <div>
               <div>
@@ -49,21 +49,24 @@
               <div>
                 <label for="priority">Priority:</label>
                 <select id="priority">
-                  <option value="1">1</option>
+                  <option value="1" selected="selected">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
                 </select>
               </div>
-              <div>
-                <input type="checkbox" id="checkbox" name="complete" />
-                <label for="checkbox" onclick="removeTask()">Complete</label>
-              </div>
-              <div>
-                <button>Delete <span>🗑️</span></button>
-              </div>
             </div>
-          </fieldset>
-        </form>
+            <button type="submit">Submit</button>
+        </fieldset>
+    </form>
+    <div id="taskList">
+    </div>
+    <!-- <div>
+      <input type="checkbox" id="checkbox" name="complete" />
+      <label for="checkbox" onclick="completeTask()">Complete</label>
+    </div>
+    <div>
+      <button>Delete <span>🗑️</span></button>
+    </div> -->
       </section>
     </main>
     <footer></footer>
