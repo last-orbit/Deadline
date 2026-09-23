@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <nav></nav>
@@ -44,7 +44,11 @@
               </div>
               <div>
                 <label for="status">Status:</label>
-                <input placeholder="In Progress, Scheduled" id="status" />
+                <select id="status">
+                    <option value="Not Started" selected="selected">Not Started</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Waiting">Waiting</option>
+                </select>
               </div>
               <div>
                 <label for="priority">Priority:</label>
@@ -57,15 +61,13 @@
               </div>
             </div>
             <button type="submit">Submit</button>
-        </fieldset>
-    </form>
-    <div>
-
-        <div id="taskList">
+          </fieldset>
+        </form>
+        <div>
+          <div id="taskList"></div>
+          <div id="completeTaskList"></div>
         </div>
-        <div id="completeTaskList"></div>
-    </div>
-    <!-- <div>
+        <!-- <div>
       <input type="checkbox" id="checkbox" name="complete" />
       <label for="checkbox" onclick="completeTask()">Complete</label>
     </div>

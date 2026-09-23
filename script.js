@@ -1,7 +1,7 @@
 const taskForm = document.getElementById("taskForm");
 const taskList = document.getElementById("taskList");
 const taskItem = document.getElementById("taskItem");
-let completeTaskList = document.getElementById("completeTaskList");
+const completeTaskList = document.getElementById("completeTaskList");
 
 /*
     Functions
@@ -63,28 +63,33 @@ function listTask() {
         case "4":
           color = "gray";
       }
-      taskList.innerHTML += `<div>
-                              <p style="background-color:${color}">${task.taskName}</p>
-                              <p>status</p>:${task.status} <p>priority :${task.priority}</p>
+      taskList.innerHTML += `<div style="background-color:${color}">
+                              <p>${task.taskName}</p>
+<p> Status: <select data-index="${index}"> <option ${task.status === "Not Started" ? "selected" : ""}>Not Started</option> <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option> <option ${task.status === "Complete" ? "selected" : ""}>Complete</option> </select> </p> <p>Priority: ${task.priority}</p>
                                 <div>
                                   <input type="checkbox" id="checkbox-${index}" name="complete" data-index=${index} />
                                   <label for="checkbox-${index}">Complete</label>
                                 </div>
+                                <button data-index="${index}" data-list="tasks">Delete</button>
                             </div>`;
     });
     taskList.innerHTML += `</ol>`;
   }
 }
+function changeStatus() {
+  listTask();
+}
 
 function listCompletedTasks() {
   completeTaskList.innerHTML = ``;
-  const data = getData('completedTasks');
+  const data = getData("completedTasks");
   if (data) {
     completeTaskList.innerHTML += `<ol>`;
     data.forEach((task, index) => {
-      completeTaskList.innerHTML += `<div>
+      completeTaskList.innerHTML += `<div id="completedTask>
                               <p>${task.taskName}</p>
                               <p>status</p>:${task.status} <p>priority :${task.priority}</p>
+                              <button data-index="${index}" data-list="completedTasks">Delete</button>
                             </div>`;
     });
     completeTaskList.innerHTML += `</ol>`;
@@ -111,14 +116,31 @@ function completeTask(event) {
     tasks[index].complete = event.target.checked;
     completedTasks.unshift(tasks[index]);
     tasks.splice(index, 1);
-    listTask()
     localStorage.setItem("tasks", JSON.stringify(tasks));
     localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+    listTask();
     listCompletedTasks();
   }
 }
 
-// function deleteTask(){}
+function deleteTask(event) {
+  const index = event.target.dataset.index;
+  const list = event.target.dataset.list;
+  const tasks = getData("tasks");
+  const completedTasks = getData("completedTasks");
+
+  if (list === "tasks") {
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    listTask();
+  }
+
+  if (list === "completedTasks") {
+    completedTasks.splice(index, 1);
+    localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+    listCompletedTasks();
+  }
+}
 
 /*
     Event Listeners
@@ -128,4 +150,7 @@ window.addEventListener("DOMContentLoaded", () => {
   listCompletedTasks();
 });
 taskForm.addEventListener("submit", handleTaskSubmit);
+taskList.addEventListener("change", changeStatus);
 taskList.addEventListener("click", completeTask);
+taskList.addEventListener("click", deleteTask);
+completeTaskList.addEventListener("click", deleteTask);
