@@ -65,7 +65,13 @@ function listTask() {
       }
       taskList.innerHTML += `<div style="background-color:${color}">
                               <p>${task.taskName}</p>
-<p> Status: <select data-index="${index}"> <option ${task.status === "Not Started" ? "selected" : ""}>Not Started</option> <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option> <option ${task.status === "Complete" ? "selected" : ""}>Complete</option> </select> </p> <p>Priority: ${task.priority}</p>
+                              <p> Status: <select data-index="${index}"> 
+                                <option ${task.status === "Not Started" ? "selected" : ""}>Not Started</option> 
+                                <option ${task.status === "Waiting" ? "selected" : ""}>Waiting</option>
+                                <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option> 
+                                <option ${task.status === "Complete" ? "selected" : ""}>Complete</option> </select> 
+                              </p> 
+                              <p>Priority: ${task.priority}</p>
                                 <div>
                                   <input type="checkbox" id="checkbox-${index}" name="complete" data-index=${index} />
                                   <label for="checkbox-${index}">Complete</label>
@@ -76,17 +82,38 @@ function listTask() {
     taskList.innerHTML += `</ol>`;
   }
 }
-function changeStatus() {
-  listTask();
+function changeStatus(event) {
+  const tasks = getData("tasks");
+  const index = event.target.dataset.index;
+  const status = event.target.value
+  tasks[index].status = status
+  
+  
+  if (tasks[index].status === "Complete") {
+    const completedTasks = getData("completedTasks");
+
+    completedTasks.unshift(tasks[index]);
+    tasks.splice(index, 1);
+    
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+    
+    listTask();
+    listCompletedTasks();
+  } else {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    listTask();
+  }
 }
 
 function listCompletedTasks() {
   completeTaskList.innerHTML = ``;
   const data = getData("completedTasks");
+  console.log(data)
   if (data) {
     completeTaskList.innerHTML += `<ol>`;
     data.forEach((task, index) => {
-      completeTaskList.innerHTML += `<div id="completedTask>
+      completeTaskList.innerHTML += `<div id="completedTask">
                               <p>${task.taskName}</p>
                               <p>status</p>:${task.status} <p>priority :${task.priority}</p>
                               <button data-index="${index}" data-list="completedTasks">Delete</button>
