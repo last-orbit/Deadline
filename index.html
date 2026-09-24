@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Deadline</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -12,25 +12,47 @@
       <!-- Deadline Section -->
       <section>
         <h1>What is your deadline?</h1>
-        <form>
+        <button onclick="deadlineBox()">Create Deadline <span>+</span></button>
+        <!-- Create Date -->
+        <form id="dateForm">
           <fieldset>
             <div>
-              <label for="name">Deadline Name:</label>
-              <input type="text" id="" placeholder="Finish project by today" />
+              <label for="deadlineName">Deadline Name:</label>
+              <input type="text" id="deadlineName" placeholder="Finish project by today" />
             </div>
             <div>
-              <label for="name">Deadline:</label>
-              <input type="date" id="" placeholder="October 26th 1985" />
+              <label for="deadline">Deadline:</label>
+              <input type="date" id="deadline" placeholder="October 26th 1985" />
             </div>
-            <button>Submit</button>
+            <button id="dateSubmit" type="submit">Submit</button>
           </fieldset>
         </form>
+        <div id="dateInfo">
+        </div>
+        <div id="timebox">
+          <div class="time">
+            <h2 id="days">00</h2>
+            <p>Days</p>
+          </div>
+          <div class="time">
+            <h2 id="hours">00</h2>
+            <p>Hours</p>
+          </div>
+          <div class="time">
+            <h2 id="minutes">00</h2>
+            <p>Minutes</p>
+          </div>
+          <div class="time">
+            <h2 id="seconds">00</h2>
+            <p>Seconds</p>
+          </div>
+        </div>
       </section>
       <!-- To Do Section -->
       <section>
         <div class="todo-title">
           <h1>To Do</h1>
-          <button onclick="openBox()">Add Task <span>+</span></button>
+          <button onclick="taskBox()">Add Task <span>+</span></button>
         </div>
         <!-- Create Task -->
         <form id="taskForm">
@@ -45,9 +67,11 @@
               <div>
                 <label for="status">Status:</label>
                 <select id="status">
-                    <option value="Not Started" selected="selected">Not Started</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Waiting">Waiting</option>
+                  <option value="Not Started" selected="selected">
+                    Not Started
+                  </option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Waiting">Waiting</option>
                 </select>
               </div>
               <div>
