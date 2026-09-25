@@ -13,6 +13,11 @@
       <section>
         <h1>What is your deadline?</h1>
         <button onclick="deadlineBox()">Create Deadline <span>+</span></button>
+        <div>
+            <label for="deadlineDropdown">choose your deadline</label>
+            <select id="deadlineDropdown">
+            </select>
+        </div>
         <!-- Create Date -->
         <form id="dateForm">
           <fieldset>
@@ -25,6 +30,7 @@
               <input type="date" id="deadline" placeholder="October 26th 1985" />
             </div>
             <button id="dateSubmit" type="submit">Submit</button>
+            <button type="button" id="dateClose">Close</button>
           </fieldset>
         </form>
         <div id="dateInfo">
@@ -62,7 +68,7 @@
             <div>
               <div>
                 <label for="taskName">Task name:</label>
-                <input type="text" placeholder="task name" id="taskName" />
+                <input type="text" placeholder="task name" id="taskName"/>
               </div>
               <div>
                 <label for="status">Status:</label>
@@ -85,6 +91,7 @@
               </div>
             </div>
             <button type="submit">Submit</button>
+            <button type="button" id="taskClose">Close</button>
           </fieldset>
         </form>
         <div>

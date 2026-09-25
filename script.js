@@ -2,9 +2,11 @@
 const dateForm = document.getElementById("dateForm");
 const dateInfo = document.getElementById("dateInfo");
 const dateSubmit = document.getElementById("dateSubmit");
+const deadlineDropdown = document.getElementById("deadlineDropdown");
 
 // Task Imports
 const taskForm = document.getElementById("taskForm");
+const taskClose= document.getElementById("taskClose")
 const taskList = document.getElementById("taskList");
 const taskItem = document.getElementById("taskItem");
 const completeTaskList = document.getElementById("completeTaskList");
@@ -25,6 +27,7 @@ function handleDateSubmit(event) {
   const deadline = document.getElementById("deadline").value;
 
   const date = {
+    id: crypto.randomUUID(),
     deadlineName,
     deadline,
   };
@@ -33,19 +36,34 @@ function handleDateSubmit(event) {
   setDateData(date);
   dateForm.reset();
   dateForm.style.display = "none";
-  dateSubmit.style.display = "none";
+  // dateSubmit.style.display = "none";
   listDateInfo();
 }
 
 function listDateInfo() {
   dateInfo.innerHTML = "";
+  deadlineDropdown.innerHTML = "";
+
   const data = getDateData("dates");
+  console.log("dates:", data);
+  console.log("number of dates:", data.length);
   if (data.length > 0) {
     const date = data[0];
+    console.log(date);
     dateInfo.innerHTML += `<div>
-    <h2>${date.deadlineName}</h2>
-    <h2>${date.deadline}</h2>
+    <h2 id="displayName">${date.deadlineName}</h2>
+    <div>
+    <button>Delete</button>
+    </div>
     </div>`;
+    // <h2>${date.deadline}</h2> added after the h2 of deadlineName
+    // <button>Add Time</button> added before the delete button
+
+    data.forEach((date) => {
+      deadlineDropdown.innerHTML += `<option value=${date.id}>
+      ${date.deadlineName}
+      </option>`;
+    });
   }
 }
 
@@ -53,7 +71,8 @@ function countdown() {
   const data = getDateData("dates");
 
   if (data.length > 0) {
-    const date = data[0];
+    const selectedId = deadlineDropdown.value;
+    const date = data.find((date) => date.id === selectedId);
     const targetDate = new Date(date.deadline).getTime();
     const currentDate = new Date().getTime();
     const distance = targetDate - currentDate;
@@ -67,6 +86,7 @@ function countdown() {
     const minutes = Math.floor(distance / 1000 / 60) % 60;
     const seconds = Math.floor(distance / 1000) % 60;
 
+    document.getElementById("displayName").textContent = date.deadlineName;
     document.getElementById("days").textContent = days;
     document.getElementById("hours").textContent = hours;
     document.getElementById("minutes").textContent = minutes;
@@ -90,13 +110,25 @@ function setDateData(date) {
   localStorage.setItem("dates", JSON.stringify(dates));
 }
 
-// function removeDate(){}
+// function addTime(event) {}
 
-// function deleteDate(){}
+function deleteDate(event) {
+  const index = event.target.dataset.index;
+  const dates = getDateData("dates");
+
+  dates.splice(index, 1);
+  localStorage.setItem("dates", JSON.stringify(dates));
+  listDateInfo();
+}
 
 // Task Section
 function taskBox() {
   taskForm.style.display = "flex";
+  const data = getDateData("dates");
+  if(data.length === 0) {
+    taskForm.style.display = "none"
+    alert("You have to create a Deadline first")
+  }
 }
 
 function handleTaskSubmit(event) {
@@ -106,6 +138,7 @@ function handleTaskSubmit(event) {
   const priority = document.getElementById("priority").value;
 
   const task = {
+    deadlineId: deadlineDropdown.value,
     taskName,
     status,
     priority,
@@ -121,9 +154,12 @@ function handleTaskSubmit(event) {
 function listTask() {
   taskList.innerHTML = ``;
   const data = getTaskData("tasks");
+  const tasksForDeadline = data.filter((task) => {
+    return task.deadlineId === deadlineDropdown.value;
+});
   if (data) {
     taskList.innerHTML += `<ol>`;
-    data.forEach((task, index) => {
+    tasksForDeadline.forEach((task, index) => {
       let color;
       switch (task.priority) {
         case "1":
@@ -245,14 +281,36 @@ function deleteTask(event) {
 
 /*
     Event Listeners
+
 */
 window.addEventListener("DOMContentLoaded", () => {
+  listDateInfo();
   listTask();
   listCompletedTasks();
 });
-
+/*
+  Date Event Listeners
+*/
 dateForm.addEventListener("submit", handleDateSubmit);
+dateClose.addEventListener("click", () => {
+  dateForm.style.display = "none"
+  dateForm.reset();
+})
+deadlineDropdown.addEventListener("change", () => {
+  countdown();
+  listTask();
+});
+dateInfo.addEventListener("click", deleteDate);
+// dateInfo.addEventListener("click", addTime);
+
+/*
+  Task Event Listeners
+*/
 taskForm.addEventListener("submit", handleTaskSubmit);
+taskClose.addEventListener("click", () => {
+  taskForm.style.display = "none";
+  taskForm.reset();
+})
 taskList.addEventListener("change", changeStatus);
 taskList.addEventListener("click", completeTask);
 taskList.addEventListener("click", deleteTask);
