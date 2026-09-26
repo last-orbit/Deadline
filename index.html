@@ -14,27 +14,39 @@
         <h1>What is your deadline?</h1>
         <button onclick="deadlineBox()">Create Deadline <span>+</span></button>
         <div>
-            <label for="deadlineDropdown">choose your deadline</label>
-            <select id="deadlineDropdown">
-            </select>
+          <label for="deadlineDropdown">choose your deadline</label>
+          <select id="deadlineDropdown"></select>
         </div>
         <!-- Create Date -->
         <form id="dateForm">
           <fieldset>
             <div>
               <label for="deadlineName">Deadline Name:</label>
-              <input type="text" id="deadlineName" placeholder="Finish project by today" />
+              <input
+                type="text"
+                id="deadlineName"
+                placeholder="Finish project by today"
+                required
+              />
             </div>
             <div>
               <label for="deadline">Deadline:</label>
-              <input type="date" id="deadline" placeholder="October 26th 1985" />
+              <input
+                type="date"
+                id="deadline"
+                placeholder="October 26th 1985"
+                required
+              />
+            </div>
+            <div>
+              <label for="time">Time:</label>
+              <input type="time" id="time" value="08:00" required/>
             </div>
             <button id="dateSubmit" type="submit">Submit</button>
             <button type="button" id="dateClose">Close</button>
           </fieldset>
         </form>
-        <div id="dateInfo">
-        </div>
+        <div id="dateInfo"></div>
         <div id="timebox">
           <div class="time">
             <h2 id="days">00</h2>
@@ -68,7 +80,7 @@
             <div>
               <div>
                 <label for="taskName">Task name:</label>
-                <input type="text" placeholder="task name" id="taskName"/>
+                <input type="text" placeholder="task name" id="taskName" />
               </div>
               <div>
                 <label for="status">Status:</label>

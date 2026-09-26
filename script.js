@@ -3,6 +3,7 @@ const dateForm = document.getElementById("dateForm");
 const dateInfo = document.getElementById("dateInfo");
 const dateSubmit = document.getElementById("dateSubmit");
 const deadlineDropdown = document.getElementById("deadlineDropdown");
+const time = document.getElementById("time").value;
 
 // Task Imports
 const taskForm = document.getElementById("taskForm");
@@ -30,6 +31,7 @@ function handleDateSubmit(event) {
     id: crypto.randomUUID(),
     deadlineName,
     deadline,
+    time,
   };
   // console.log(date)
 
@@ -73,7 +75,7 @@ function countdown() {
   if (data.length > 0) {
     const selectedId = deadlineDropdown.value;
     const date = data.find((date) => date.id === selectedId);
-    const targetDate = new Date(date.deadline).getTime();
+    const targetDate = new Date(`${date.deadline}T${date.time}`).getTime();
     const currentDate = new Date().getTime();
     const distance = targetDate - currentDate;
 
