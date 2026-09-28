@@ -1,3 +1,7 @@
+/*
+  GENERAL
+*/
+
 *,
 *::before,
 *::after {
@@ -12,13 +16,293 @@ html {
 
 body {
   box-sizing: border-box;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 1.6rem;
+  letter-spacing: 2.4px;
+  word-spacing: -2.6px;
+  color: #000000;
+  font-weight: normal;
+  text-decoration: none;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-#taskForm, #dateForm {
+button,
+input,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: 1.5px;
+}
+
+/*
+  LAYOUT
+*/
+
+main {
+  width: 80%;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+section {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #d6d6d6;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/*
+  NAV
+*/
+
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+nav h1 {
+  font-size: 2.2rem;
+}
+
+nav div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+nav label {
+  text-align: center;
+}
+
+/*
+  BUTTONS
+*/
+
+button {
+  border: none;
+  border-radius: 6px;
+  padding: 1rem 1.6rem;
+  background-color: #222222;
+  color: #ffffff;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+button span {
+  margin-left: 0.5rem;
+}
+
+/*
+  FORMS
+*/
+
+#taskForm,
+#dateForm {
   display: none;
 }
 
+fieldset {
+  border: 1px solid #d6d6d6;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+fieldset h2 {
+  margin-bottom: 2rem;
+}
+
+fieldset > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+input,
+select {
+  border: 1px solid #bbbbbb;
+  border-radius: 5px;
+  padding: 1rem;
+  background-color: #ffffff;
+}
+
+input:hover,
+select:hover {
+  outline: 2px solid #888888;
+  outline-offset: 1px;
+}
+
+/*
+  DEADLINE
+*/
+
+#deadlineDropdown {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+#dateInfo {
+  margin-top: 2rem;
+}
+
+#dateInfo > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #eeeeee;
+}
+
+#displayName {
+  font-size: 2rem;
+}
+
+/*
+  COUNTDOWN
+*/
+
+#timebox {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.time {
+  flex: 1;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  border-radius: 8px;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.time h2 {
+  font-size: 2.8rem;
+}
+
+.time p {
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/*
+  TASK LIST
+*/
+
+.todo-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.2rem 1.5rem;
+  margin: 1.2rem auto 1.5rem auto;
+  border-radius: 6px;
+}
+
+.task-name {
+  flex: 1;
+  margin: 0;
+}
+
+.task-status,
+.task-priority,
+.task-complete {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/*
+  COMPLETED TASK LIST
+*/
+
 #completedTask {
-  background-color: red;
+  background-color: #d9f2d9;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 2rem;
+}
+
+#completedTask p {
+  text-decoration: line-through;
+}
+
+#completedTask button {
+  max-height: 80%;
+}
+
+/*
+  NOTIFICATION
+*/
+
+.notification {
+    position: fixed;
+  top: 2rem;
+  right: 2rem;
+  padding: 1.5rem 2rem;
+  background-color: #222222;
+  color: #ffffff;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+/*
+  RESPONSIVE
+*/
+
+@media (max-width: 800px) {
+  main {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  nav {
+    flex-direction: column;
+  }
+
+  #timebox {
+    gap: 0.5rem;
+  }
+
+  .time h2 {
+    font-size: 2.2rem;
+  }
 }

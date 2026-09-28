@@ -3,29 +3,57 @@ const dateForm = document.getElementById("dateForm");
 const dateInfo = document.getElementById("dateInfo");
 const dateSubmit = document.getElementById("dateSubmit");
 const deadlineDropdown = document.getElementById("deadlineDropdown");
-const time = document.getElementById("time").value;
+const dateClose = document.getElementById("dateClose");
 
 // Task Imports
 const taskForm = document.getElementById("taskForm");
-const taskClose= document.getElementById("taskClose")
+const taskClose = document.getElementById("taskClose");
 const taskList = document.getElementById("taskList");
 const taskItem = document.getElementById("taskItem");
 const completeTaskList = document.getElementById("completeTaskList");
 
 /*
+    Get Today's Date
+*/
+
+const deadlineInput = document.getElementById("deadline");
+
+const today = new Date().toISOString().split("T")[0];
+
+deadlineInput.min = today;
+
+/*
     Functions
 */
 
-// Date Section
+// Notifications
+function showNotification(message) {
+  const notification = document.createElement("div");
+
+  notification.classList.add("notification");
+  notification.textContent = message;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+/*
+    Date Section
+*/
 
 function deadlineBox() {
   dateForm.style.display = "flex";
 }
 
+//Create Deadline
 function handleDateSubmit(event) {
   event.preventDefault();
   const deadlineName = document.getElementById("deadlineName").value;
   const deadline = document.getElementById("deadline").value;
+  const time = document.getElementById("time").value;
 
   const date = {
     id: crypto.randomUUID(),
@@ -40,32 +68,40 @@ function handleDateSubmit(event) {
   dateForm.style.display = "none";
   // dateSubmit.style.display = "none";
   listDateInfo();
+  showNotification("Deadline Created!");
 }
 
+// Show Date
 function listDateInfo() {
+  const selectedId = deadlineDropdown.value;
+
   dateInfo.innerHTML = "";
   deadlineDropdown.innerHTML = "";
 
   const data = getDateData("dates");
-  console.log("dates:", data);
-  console.log("number of dates:", data.length);
+  // console.log("dates:", data);
+  // console.log("number of dates:", data.length);
   if (data.length > 0) {
-    const date = data[0];
-    console.log(date);
-    dateInfo.innerHTML += `<div>
-    <h2 id="displayName">${date.deadlineName}</h2>
-    <div>
-    <button>Delete</button>
-    </div>
-    </div>`;
-    // <h2>${date.deadline}</h2> added after the h2 of deadlineName
-    // <button>Add Time</button> added before the delete button
-
     data.forEach((date) => {
       deadlineDropdown.innerHTML += `<option value=${date.id}>
       ${date.deadlineName}
       </option>`;
     });
+    if (data.some((date) => date.id === selectedId)) {
+      deadlineDropdown.value === selectedId
+    }
+    const selectedDate = data.find((date) => date.id === deadlineDropdown.value);
+    if(!selectedDate) return
+
+    // console.log(selectedDate);
+    dateInfo.innerHTML += `<div>
+    <h2 id="displayName">${selectedDate.deadlineName}</h2>
+    <div>
+    <button data-id="${selectedDate.id}">Delete</button>
+    </div>
+    </div>`;
+    // <h2>${date.deadline}</h2> added after the h2 of deadlineName
+    // <button>Add Time</button> added before the delete button
   }
 }
 
@@ -100,6 +136,7 @@ function countdown() {
 
 setInterval(countdown, 1000);
 
+//Date CRUD
 function getDateData(key) {
   const data = localStorage.getItem(key);
 
@@ -115,31 +152,40 @@ function setDateData(date) {
 // function addTime(event) {}
 
 function deleteDate(event) {
-  const index = event.target.dataset.index;
+  const id = event.target.dataset.id;
   const dates = getDateData("dates");
 
-  dates.splice(index, 1);
-  localStorage.setItem("dates", JSON.stringify(dates));
+  const updatedDates = dates.filter((date) => date.id !== id);
+  localStorage.setItem("dates", JSON.stringify(updatedDates));
   listDateInfo();
+  countdown();
+  listTask();
+  showNotification("Deadline Deleted");
 }
 
-// Task Section
+/*
+   Task Section
+*/
+
 function taskBox() {
   taskForm.style.display = "flex";
   const data = getDateData("dates");
-  if(data.length === 0) {
-    taskForm.style.display = "none"
-    alert("You have to create a Deadline first")
+  if (data.length === 0) {
+    taskForm.style.display = "none";
+    alert("You have to create a Deadline first");
   }
 }
 
+//Create Task
 function handleTaskSubmit(event) {
   event.preventDefault();
+
   const taskName = document.getElementById("taskName").value;
   const status = document.getElementById("status").value;
   const priority = document.getElementById("priority").value;
 
   const task = {
+    id: crypto.randomUUID(),
     deadlineId: deadlineDropdown.value,
     taskName,
     status,
@@ -151,90 +197,112 @@ function handleTaskSubmit(event) {
   taskForm.reset();
   taskForm.style.display = "none";
   listTask();
+  showNotification("Task Created!");
 }
 
+//Show Task
 function listTask() {
   taskList.innerHTML = ``;
   const data = getTaskData("tasks");
   const tasksForDeadline = data.filter((task) => {
     return task.deadlineId === deadlineDropdown.value;
-});
-  if (data) {
+  });
+  if (data.length > 0) {
     taskList.innerHTML += `<ol>`;
-    tasksForDeadline.forEach((task, index) => {
+    tasksForDeadline.forEach((task) => {
       let color;
       switch (task.priority) {
         case "1":
-          color = "red";
+          color = "#fb9595";
           break;
         case "2":
-          color = "blue";
+          color = "#d9d9d9";
           break;
         case "3":
-          color = "green";
+          color = "#d9ead3";
           break;
         case "4":
-          color = "gray";
+          color = "#e2dfe8";
       }
-      taskList.innerHTML += `<div style="background-color:${color}">
-          <p>${task.taskName}</p>
-          <p> Status: <select data-index="${index}"> 
+      taskList.innerHTML += `<div class="task-item" style="background-color:${color}">
+          <p class="task-name">${task.taskName}</p>
+          <p class="task-status"> Status: <select data-id="${task.id}"> 
             <option ${task.status === "Not Started" ? "selected" : ""}>Not Started</option> 
             <option ${task.status === "Waiting" ? "selected" : ""}>Waiting</option>
             <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option> 
             <option ${task.status === "Complete" ? "selected" : ""}>Complete</option> </select> 
           </p> 
-          <p>Priority: ${task.priority}</p>
-            <div>
-              <input type="checkbox" id="checkbox-${index}" name="complete" data-index=${index} />
-              <label for="checkbox-${index}">Complete</label>
+          <p class="task-priority">Priority: ${task.priority}</p>
+            <div class="task-complete">
+              <input type="checkbox" id="checkbox-${task.id}" name="complete" data-id=${task.id} />
+              <label for="checkbox-${task.id}">Complete</label>
             </div>
-            <button data-index="${index}" data-list="tasks">Delete</button>
+            <button data-id="${task.id}" data-list="tasks">Delete</button>
         </div>`;
     });
     taskList.innerHTML += `</ol>`;
   }
 }
+
+//Change Status
 function changeStatus(event) {
   const tasks = getTaskData("tasks");
-  const index = event.target.dataset.index;
-  const status = event.target.value;
-  tasks[index].status = status;
 
-  if (tasks[index].status === "Complete") {
+  const id = event.target.dataset.id;
+  const status = event.target.value;
+
+  const task = tasks.find((task) => task.id === id);
+
+  if (!task) return;
+
+  task.status = status;
+
+  // If Status changes to Complete
+  if (task.status === "Complete") {
     const completedTasks = getTaskData("completedTasks");
 
-    completedTasks.unshift(tasks[index]);
-    tasks.splice(index, 1);
+    completedTasks.unshift(task);
+    // tasks.splice(index, 1);
 
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const updatedTasks = tasks.filter((task) => task.id !== id)
+
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
 
     listTask();
     listCompletedTasks();
+
+    showNotification("Task Completed");
+    console.log(showNotification);
   } else {
+    // Task changes to something other than Complete
     localStorage.setItem("tasks", JSON.stringify(tasks));
+
     listTask();
   }
 }
 
+//Show Completed Tasks
 function listCompletedTasks() {
   completeTaskList.innerHTML = ``;
   const data = getTaskData("completedTasks");
   console.log(data);
-  if (data) {
+  if (data.length > 0) {
     completeTaskList.innerHTML += `<ol>`;
-    data.forEach((task, index) => {
-      completeTaskList.innerHTML += `<div id="completedTask">
-          <p>${task.taskName}</p>
-          <p>status</p>:${task.status} <p>priority :${task.priority}</p>
-          <button data-index="${index}" data-list="completedTasks">Delete</button>
-        </div>`;
+    data.forEach((task) => {
+      completeTaskList.innerHTML += `
+      <div class="task-item" id="completedTask">
+          <p class="task-name">${task.taskName}</p>
+          <button data-id="${task.id}" data-list="completedTasks">Delete</button>
+          </div>`;
     });
     completeTaskList.innerHTML += `</ol>`;
   }
 }
+// <p>Status:${task.status}</p> <p>Priority :${task.priority}</p>
 
+
+// Task CRUD
 function getTaskData(key) {
   const data = localStorage.getItem(key);
 
@@ -249,35 +317,48 @@ function setTaskData(task) {
 
 function completeTask(event) {
   if (event.target.matches("input[type='checkbox'] ")) {
-    const index = event.target.dataset.index;
+    const id = event.target.dataset.id;
     const tasks = getTaskData("tasks");
     const completedTasks = getTaskData("completedTasks");
-    tasks[index].complete = event.target.checked;
-    completedTasks.unshift(tasks[index]);
-    tasks.splice(index, 1);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const task =tasks.find((task) => task.id === id)
+    if (!task) return;
+    task.complete = event.target.checked
+    completedTasks.unshift(task);
+    const updatedTasks = tasks.filter((task) => task.id !==id)
+
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+
     listTask();
     listCompletedTasks();
+    showNotification("Task Completed");
   }
 }
 
 function deleteTask(event) {
-  const index = event.target.dataset.index;
+  const id = event.target.dataset.id;
   const list = event.target.dataset.list;
   const tasks = getTaskData("tasks");
   const completedTasks = getTaskData("completedTasks");
 
   if (list === "tasks") {
-    tasks.splice(index, 1);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const updatedTasks = tasks.filter((task) => task.id !== id)
+
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+
     listTask();
+    showNotification("Task Deleted");
   }
 
   if (list === "completedTasks") {
-    completedTasks.splice(index, 1);
-    localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+    const updatedCompletedTasks = completedTasks.filter(
+      (task) => task.id !== id
+    );
+
+    localStorage.setItem("completedTasks", JSON.stringify(updatedCompletedTasks));
+
     listCompletedTasks();
+    showNotification("Task Deleted");
   }
 }
 
@@ -295,10 +376,11 @@ window.addEventListener("DOMContentLoaded", () => {
 */
 dateForm.addEventListener("submit", handleDateSubmit);
 dateClose.addEventListener("click", () => {
-  dateForm.style.display = "none"
+  dateForm.style.display = "none";
   dateForm.reset();
-})
+});
 deadlineDropdown.addEventListener("change", () => {
+
   countdown();
   listTask();
 });
@@ -312,7 +394,7 @@ taskForm.addEventListener("submit", handleTaskSubmit);
 taskClose.addEventListener("click", () => {
   taskForm.style.display = "none";
   taskForm.reset();
-})
+});
 taskList.addEventListener("change", changeStatus);
 taskList.addEventListener("click", completeTask);
 taskList.addEventListener("click", deleteTask);

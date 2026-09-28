@@ -7,16 +7,20 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <nav></nav>
     <main>
       <!-- Deadline Section -->
-      <section>
-        <h1>What is your deadline?</h1>
-        <button onclick="deadlineBox()">Create Deadline <span>+</span></button>
+      <!-- Nav -->
+      <nav>
+        <h1>What's your deadline?</h1>
         <div>
-          <label for="deadlineDropdown">choose your deadline</label>
+          <button onclick="deadlineBox()">
+            Create Deadline <span>+</span>
+          </button>
+          <label for="deadlineDropdown">Choose your deadline</label>
           <select id="deadlineDropdown"></select>
         </div>
+      </nav>
+      <section>
         <!-- Create Date -->
         <form id="dateForm">
           <fieldset>
@@ -34,18 +38,18 @@
               <input
                 type="date"
                 id="deadline"
-                placeholder="October 26th 1985"
                 required
               />
             </div>
             <div>
               <label for="time">Time:</label>
-              <input type="time" id="time" value="08:00" required/>
+              <input type="time" id="time" value="08:00" required />
             </div>
             <button id="dateSubmit" type="submit">Submit</button>
             <button type="button" id="dateClose">Close</button>
           </fieldset>
         </form>
+        <!-- Countdown -->
         <div id="dateInfo"></div>
         <div id="timebox">
           <div class="time">
@@ -76,7 +80,6 @@
         <form id="taskForm">
           <fieldset>
             <h2>Create your task</h2>
-            <!-- Main div -->
             <div>
               <div>
                 <label for="taskName">Task name:</label>
@@ -95,10 +98,10 @@
               <div>
                 <label for="priority">Priority:</label>
                 <select id="priority">
-                  <option value="1" selected="selected">1</option>
-                  <option value="2">2</option>
+                  <option value="4" selected="selected">4</option>
                   <option value="3">3</option>
-                  <option value="4">4</option>
+                  <option value="2">2</option>
+                  <option value="1">1</option>
                 </select>
               </div>
             </div>
@@ -107,19 +110,13 @@
           </fieldset>
         </form>
         <div>
+          <!-- Task List -->
           <div id="taskList"></div>
+          <!-- Completed Task List -->
           <div id="completeTaskList"></div>
         </div>
-        <!-- <div>
-      <input type="checkbox" id="checkbox" name="complete" />
-      <label for="checkbox" onclick="completeTask()">Complete</label>
-    </div>
-    <div>
-      <button>Delete <span>🗑️</span></button>
-    </div> -->
       </section>
     </main>
-    <footer></footer>
     <script src="script.js"></script>
   </body>
 </html>
