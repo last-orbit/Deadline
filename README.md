@@ -1,6 +1,6 @@
 # Deadline Task Manager
 
-A vanilla JavaScript task management application for creating deadlines, tracking countdowns, and organizing tasks around specific deadlines.
+A vanilla JavaScript task management application for creating deadlines, tracking countdowns, and organizing tasks around specific deadlines. Inspired by codedex's "back to school" monthly challenge. 
 
 ## Features
 
@@ -35,10 +35,15 @@ Clone the repository and open the project in your browser using your preferred l
 
 No backend or database is required.
 
+## Resources 
+* Creating a To Do list by the digital mike using local storage (https://youtu.be/lMLSPNPNWLQ?is=hN8tTDpEzoX-fE9q)
+* Creating a coundown timer by Html Camp using local storage (https://youtu.be/34kbdFLpff8?is=COaSyT6KuDxe8et9)
+* CSS refresher cheat sheet (https://htmlcheatsheet.com/css/)
+* Trouble shooting docs: MDN and W3schools
+
 ## Future Improvements
 
-* Add celebratory feedback when all tasks for a deadline are completed
-* Add a confetti animation
-* Improve notification animations
-* Add task editing
-* Improve responsive and accessibility features
+* Add feedback when all tasks for a deadline are completed by adding a toast or confetti animation (to be completed soon).
+* Add task editing.
+* Create a component that could add time the deadline.
+* Improve responsive layout for task list.
