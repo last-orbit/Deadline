@@ -48,3 +48,4 @@ No backend or database is required.
 * Add task editing.
 * Create a component that could add time the deadline.
 * Improve responsive layout for task list.
+* Putting the countdown and deadline name inside the window tab 
