@@ -88,10 +88,12 @@ function listDateInfo() {
       </option>`;
     });
     if (data.some((date) => date.id === selectedId)) {
-      deadlineDropdown.value === selectedId
+      deadlineDropdown.value === selectedId;
     }
-    const selectedDate = data.find((date) => date.id === deadlineDropdown.value);
-    if(!selectedDate) return
+    const selectedDate = data.find(
+      (date) => date.id === deadlineDropdown.value,
+    );
+    if (!selectedDate) return;
 
     // console.log(selectedDate);
     dateInfo.innerHTML += `<div>
@@ -108,30 +110,38 @@ function listDateInfo() {
 function countdown() {
   const data = getDateData("dates");
 
-  if (data.length > 0) {
-    const selectedId = deadlineDropdown.value;
-    const date = data.find((date) => date.id === selectedId);
-    const targetDate = new Date(`${date.deadline}T${date.time}`).getTime();
-    const currentDate = new Date().getTime();
-    const distance = targetDate - currentDate;
+  if (data.length === 0) {
 
-    // console.log("Deadline:", date.deadline);
-    // console.log("Target:", new Date(targetDate));
-    // console.log("Current:", new Date(currentDate));
+  document.getElementById("displayName").textContent = "";
+  document.getElementById("days").textContent = "00";
+  document.getElementById("hours").textContent = "00";
+  document.getElementById("minutes").textContent = "00";
+  document.getElementById("seconds").textContent = "00";
 
-    const days = Math.floor(distance / 1000 / 60 / 60 / 24);
-    const hours = Math.floor(distance / 1000 / 60 / 60) % 24;
-    const minutes = Math.floor(distance / 1000 / 60) % 60;
-    const seconds = Math.floor(distance / 1000) % 60;
-
-    document.getElementById("displayName").textContent = date.deadlineName;
-    document.getElementById("days").textContent = days;
-    document.getElementById("hours").textContent = hours;
-    document.getElementById("minutes").textContent = minutes;
-    document.getElementById("seconds").textContent = seconds;
-
-    // console.log(`${days} : ${hours} : ${minutes} : ${seconds}`);
+    return;
   }
+  const selectedId = deadlineDropdown.value;
+  const date = data.find((date) => date.id === selectedId);
+  const targetDate = new Date(`${date.deadline}T${date.time}`).getTime();
+  const currentDate = new Date().getTime();
+  const distance = targetDate - currentDate;
+
+  // console.log("Deadline:", date.deadline);
+  // console.log("Target:", new Date(targetDate));
+  // console.log("Current:", new Date(currentDate));
+
+  const days = Math.floor(distance / 1000 / 60 / 60 / 24);
+  const hours = Math.floor(distance / 1000 / 60 / 60) % 24;
+  const minutes = Math.floor(distance / 1000 / 60) % 60;
+  const seconds = Math.floor(distance / 1000) % 60;
+
+  document.getElementById("displayName").textContent = date.deadlineName;
+  document.getElementById("days").textContent = days;
+  document.getElementById("hours").textContent = hours;
+  document.getElementById("minutes").textContent = minutes;
+  document.getElementById("seconds").textContent = seconds;
+
+  // console.log(`${days} : ${hours} : ${minutes} : ${seconds}`);
 }
 
 setInterval(countdown, 1000);
@@ -149,7 +159,7 @@ function setDateData(date) {
   localStorage.setItem("dates", JSON.stringify(dates));
 }
 
-// function addTime(event) {}
+// function addTime(event) {} for the future
 
 function deleteDate(event) {
   const id = event.target.dataset.id;
@@ -157,8 +167,8 @@ function deleteDate(event) {
 
   const updatedDates = dates.filter((date) => date.id !== id);
   localStorage.setItem("dates", JSON.stringify(updatedDates));
+  countdown(); // switched countdown to be on top, so that the reset actually happens instead the old countdown appearing
   listDateInfo();
-  countdown();
   listTask();
   showNotification("Deadline Deleted");
 }
@@ -264,7 +274,7 @@ function changeStatus(event) {
     completedTasks.unshift(task);
     // tasks.splice(index, 1);
 
-    const updatedTasks = tasks.filter((task) => task.id !== id)
+    const updatedTasks = tasks.filter((task) => task.id !== id);
 
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
@@ -301,7 +311,6 @@ function listCompletedTasks() {
 }
 // <p>Status:${task.status}</p> <p>Priority :${task.priority}</p>
 
-
 // Task CRUD
 function getTaskData(key) {
   const data = localStorage.getItem(key);
@@ -320,11 +329,11 @@ function completeTask(event) {
     const id = event.target.dataset.id;
     const tasks = getTaskData("tasks");
     const completedTasks = getTaskData("completedTasks");
-    const task =tasks.find((task) => task.id === id)
+    const task = tasks.find((task) => task.id === id);
     if (!task) return;
-    task.complete = event.target.checked
+    task.complete = event.target.checked;
     completedTasks.unshift(task);
-    const updatedTasks = tasks.filter((task) => task.id !==id)
+    const updatedTasks = tasks.filter((task) => task.id !== id);
 
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
@@ -342,7 +351,7 @@ function deleteTask(event) {
   const completedTasks = getTaskData("completedTasks");
 
   if (list === "tasks") {
-    const updatedTasks = tasks.filter((task) => task.id !== id)
+    const updatedTasks = tasks.filter((task) => task.id !== id);
 
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
 
@@ -352,10 +361,13 @@ function deleteTask(event) {
 
   if (list === "completedTasks") {
     const updatedCompletedTasks = completedTasks.filter(
-      (task) => task.id !== id
+      (task) => task.id !== id,
     );
 
-    localStorage.setItem("completedTasks", JSON.stringify(updatedCompletedTasks));
+    localStorage.setItem(
+      "completedTasks",
+      JSON.stringify(updatedCompletedTasks),
+    );
 
     listCompletedTasks();
     showNotification("Task Deleted");
@@ -380,7 +392,6 @@ dateClose.addEventListener("click", () => {
   dateForm.reset();
 });
 deadlineDropdown.addEventListener("change", () => {
-
   countdown();
   listTask();
 });

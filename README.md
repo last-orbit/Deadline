@@ -37,6 +37,7 @@ No backend or database is required.
 
 ## Resources 
 * Creating a To Do list by the digital mike using local storage (https://youtu.be/lMLSPNPNWLQ?is=hN8tTDpEzoX-fE9q)
+* Another reference on using local storage on a to do app (https://medium.com/@erp-enterprises/learn-how-to-use-localstorage-in-javascript-with-a-todo-app-b9530d4da813)
 * Creating a coundown timer by Html Camp using local storage (https://youtu.be/34kbdFLpff8?is=COaSyT6KuDxe8et9)
 * CSS refresher cheat sheet (https://htmlcheatsheet.com/css/)
 * Trouble shooting docs: MDN and W3schools
