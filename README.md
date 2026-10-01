@@ -1,3 +1,5 @@
+<img width="1470" height="711" alt="Screenshot 2026-09-29 at 23 43 31" src="https://github.com/user-attachments/assets/8b851e87-3782-4244-bb38-33bbc2fb5b38" />
+
 # Deadline Task Manager
 
 A vanilla JavaScript task management application for creating deadlines, tracking countdowns, and organizing tasks around specific deadlines. Inspired by codedex's "back to school" monthly challenge. 
